@@ -11,6 +11,12 @@ export default {
         medium: 500,
         bold: 700,
       },
+      colors: {
+        gradientStart: '#483BEB',
+        gradientMid: '#7847E1',
+        gradientEnd: '#DD568D',
+      },
+
     },
   },
   plugins: [],

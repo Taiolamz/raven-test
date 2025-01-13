@@ -1,13 +1,16 @@
-import { SetStateAction, useState } from "react"
+import React, { SetStateAction, useEffect, useState } from "react"
 import icons from "../../../assets/icons/icons"
 import images from "../../../assets/images/images"
 import Components from "../../../components"
 import Frame from "../../../components/frame"
-import { useNavigate } from "react-router"
+import { useLocation, useNavigate } from "react-router"
 import ApexChart from "../../../components/apexChart"
 // import Tab from "../../../components/tabs"
 import Select from "react-select"
 import Tab from "../../../components/tabs"
+import Drawer from "../../../components/drawer"
+import { useQuery } from "../../../hooks/useQuery"
+import useWindowSize from "../../../hooks/usewindowSize"
 
 
 const Exchange = () => {
@@ -32,6 +35,8 @@ const Exchange = () => {
             path: '/logout'
         }
     ]
+
+
 
 
     const divider =
@@ -73,22 +78,22 @@ const Exchange = () => {
         {
             label: 'Open Orders',
             tab: "open-orders",
-            path: '?tab=open-orders'
+            path: '?tab=chart_tab'
         },
         {
             label: 'Positions',
             tab: "positions",
-            path: '?tab=positions'
+            path: '&tab=positions'
         },
         {
             label: 'Order History',
             tab: "order-history",
-            path: '?tab=order-history'
+            path: '&tab=order-history'
         },
         {
             label: 'Trade History',
             tab: "trade-history",
-            path: '?tab=trade-history'
+            path: '&tab=trade-history'
         }
     ];
 
@@ -96,33 +101,55 @@ const Exchange = () => {
     const CHART_DURATION = [
         {
             label: "Time",
-            query: "/time"
+            query: "time",
+            is_active: false,
         },
         {
             label: "1H",
-            query: "1h"
+            query: "1h",
+            is_active: false,
         },
         {
             label: "2H",
             query: "2h",
+            is_active: false,
         },
         {
             label: "4H",
-            query: "4h"
+            query: "4h",
+            is_active: false,
         },
         {
             label: "1D",
-            query: "1D"
+            query: "1D",
+            is_active: true,
         },
         {
             label: "1W",
-            query: "1w"
+            query: "1w",
+            is_active: false,
         },
         {
             label: "1M",
-            query: "1m"
+            query: "1m",
+            is_active: false,
         }
     ]
+
+    // const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        const queryParam = 'chart_tab';
+        const defaultValue = 'charts';
+
+        const queryParams = new URLSearchParams(location.search);
+        if (!queryParams.get(queryParam)) {
+            queryParams.set(queryParam, defaultValue);
+            navigate(`${location.pathname}?${queryParams.toString()}`, { replace: true });
+        }
+    }, [location.pathname, location.search, navigate]);
+
 
     const bookOne = <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="12" height="2" rx="1" fill="#FF6838" />
@@ -172,52 +199,172 @@ const Exchange = () => {
         {
             price: "36920.12",
             amount: '0.758965',
-            total: "28,020.98"
-            // total_color:""
+            total: "28,020.98",
+            is_total_low: true,
+            is_amount_low: false,
+            is_amount_high: false
         },
         {
             price: "36920.12",
             amount: '0.758965',
-            total: "28,020.98"
+            total: "28,020.98",
+            is_total_low: false,
+            is_normal: false,
+            is_amount_low: false,
+            is_amount_high: false
         },
         {
             price: "36920.12",
             amount: '0.758965',
-            total: "28,020.98"
+            total: "28,020.98",
+            is_total_low: true,
+            is_normal: false,
+            is_amount_low: false,
+            is_amount_high: false
         },
         {
             price: "36920.12",
             amount: '0.758965',
-            total: "28,020.98"
+            total: "28,020.98",
+            is_total_low: false,
+            is_normal: false,
+            is_amount_low: false,
+            is_amount_high: false
         },
         {
             price: "36920.12",
             amount: '0.758965',
-            total: "28,020.98"
-        }
+            total: "28,020.98",
+            is_total_low: true,
+            is_normal: false,
+            is_amount_low: true,
+            is_amount_high: false
+        },
+        {
+            price: "36920.12",
+            amount: '0.758965',
+            total: "28,020.98",
+            is_total_low: false,
+            is_normal: false,
+            is_amount_low: false,
+            is_amount_high: false
+        },
+        {
+            price: "36920.12",
+            amount: '0.758965',
+            total: "28,020.98",
+            is_total_low: false,
+            is_normal: false,
+            is_amount_low: false,
+            is_amount_high: false
+        },
+        {
+            price: "36920.12",
+            amount: '0.758965',
+            total: "28,020.98",
+            is_total_low: false,
+            is_normal: false,
+            is_amount_low: false,
+            is_amount_high: false
+        },
     ]
 
     const arrowUp = <svg width="7" height="10" viewBox="0 0 7 10" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M6.15651 3.606C6.40625 3.33545 6.38938 2.91368 6.11883 2.66394L3.78553 0.510093C3.53015 0.274361 3.13653 0.274359 2.88115 0.510088L0.547793 2.66394C0.277244 2.91367 0.260371 3.33544 0.510106 3.60599C0.75984 3.87654 1.18161 3.89341 1.45216 3.64368L2.66667 2.5226L2.66667 8.99996C2.66667 9.36815 2.96515 9.66663 3.33333 9.66663C3.70152 9.66663 4 9.36815 4 8.99996L4 2.52263L5.21445 3.64367C5.485 3.89341 5.90677 3.87654 6.15651 3.606Z" fill="#25C26E" />
     </svg>
+    const line = <svg width="239" height="1" viewBox="0 0 239 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line opacity="0.5" y1="0.5" x2="239" y2="0.5" stroke="#394047" />
+    </svg>
+
+
+    const [isDrawerOpen, setDrawerOpen] = useState(false);
+    const [isBuy, setIsBuy] = useState(false)
+    const [isSell, setIsSell] = useState(false)
+
+    const handleOpenDrawer = (type: 'buy' | 'sell') => {
+        setDrawerOpen(true)
+        if (type === 'buy') {
+            setIsBuy(true);
+            setIsSell(false)
+        } else if (type === 'sell') {
+            setIsSell(true);
+            setIsBuy(false)
+        }
+    };
+
+    const drawerTabs = [{
+        label: "Limit", is_active: true
+    }, {
+        label: "Markets", is_active: false
+    },
+    {
+        label: "Stop-Limit", is_active: false
+    }
+    ]
+
+    const info = <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 4.5C4.86739 4.5 4.74022 4.55268 4.64645 4.64645C4.55268 4.74021 4.5 4.86739 4.5 5V7C4.5 7.13261 4.55268 7.25979 4.64645 7.35355C4.74022 7.44732 4.86739 7.5 5 7.5C5.13261 7.5 5.25979 7.44732 5.35356 7.35355C5.44732 7.25979 5.5 7.13261 5.5 7V5C5.5 4.86739 5.44732 4.74021 5.35356 4.64645C5.25979 4.55268 5.13261 4.5 5 4.5ZM5.19 2.54C5.06827 2.48999 4.93173 2.48999 4.81 2.54C4.74863 2.5638 4.69255 2.59948 4.645 2.645C4.60084 2.6936 4.56532 2.74941 4.54 2.81C4.51201 2.86934 4.49831 2.93441 4.5 3C4.49962 3.0658 4.51223 3.13103 4.53712 3.19195C4.562 3.25287 4.59866 3.30828 4.645 3.355C4.6936 3.39917 4.74941 3.43468 4.81 3.46C4.88575 3.49112 4.96798 3.50316 5.04948 3.49506C5.13097 3.48695 5.20922 3.45896 5.27736 3.41353C5.3455 3.36811 5.40144 3.30664 5.44026 3.23454C5.47908 3.16243 5.49959 3.08189 5.5 3C5.49816 2.86762 5.44637 2.74082 5.355 2.645C5.30745 2.59948 5.25138 2.5638 5.19 2.54ZM5 0C4.0111 0 3.0444 0.293245 2.22215 0.842652C1.39991 1.39206 0.759043 2.17295 0.380605 3.08658C0.00216642 4.00021 -0.0968503 5.00555 0.0960759 5.97545C0.289002 6.94536 0.765206 7.83627 1.46447 8.53553C2.16373 9.2348 3.05465 9.711 4.02455 9.90393C4.99446 10.0969 5.99979 9.99784 6.91342 9.6194C7.82705 9.24096 8.60794 8.6001 9.15735 7.77785C9.70676 6.95561 10 5.98891 10 5C10 4.34339 9.87067 3.69321 9.6194 3.08658C9.36813 2.47995 8.99983 1.92876 8.53554 1.46447C8.07124 1.00017 7.52005 0.631876 6.91342 0.380602C6.30679 0.129329 5.65661 0 5 0ZM5 9C4.20888 9 3.43552 8.7654 2.77772 8.32588C2.11992 7.88635 1.60723 7.26164 1.30448 6.53073C1.00173 5.79983 0.92252 4.99556 1.07686 4.21964C1.2312 3.44371 1.61216 2.73098 2.17158 2.17157C2.73099 1.61216 3.44372 1.2312 4.21964 1.07686C4.99557 0.922518 5.79983 1.00173 6.53074 1.30448C7.26164 1.60723 7.88635 2.11992 8.32588 2.77772C8.76541 3.43552 9 4.20887 9 5C9 6.06087 8.57858 7.07828 7.82843 7.82843C7.07828 8.57857 6.06087 9 5 9Z" fill="#A7B1BC" />
+    </svg>
+
+    const tinyDrop = <svg width="6" height="4" viewBox="0 0 6 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.5 0.584971C5.40632 0.491846 5.2796 0.439575 5.1475 0.439575C5.01541 0.439575 4.88869 0.491846 4.795 0.584971L3 2.35497L1.23 0.584971C1.13632 0.491846 1.0096 0.439575 0.877505 0.439575C0.745412 0.439575 0.618686 0.491846 0.525005 0.584971C0.478141 0.631453 0.440943 0.686753 0.415559 0.747683C0.390175 0.808613 0.377106 0.873966 0.377106 0.939971C0.377106 1.00598 0.390175 1.07133 0.415559 1.13226C0.440943 1.19319 0.478141 1.24849 0.525005 1.29497L2.645 3.41497C2.69149 3.46184 2.74679 3.49903 2.80772 3.52442C2.86865 3.5498 2.934 3.56287 3 3.56287C3.06601 3.56287 3.13136 3.5498 3.19229 3.52442C3.25322 3.49903 3.30852 3.46184 3.355 3.41497L5.5 1.29497C5.54687 1.24849 5.58407 1.19319 5.60945 1.13226C5.63483 1.07133 5.6479 1.00598 5.6479 0.939971C5.6479 0.873966 5.63483 0.808613 5.60945 0.747683C5.58407 0.686753 5.54687 0.631453 5.5 0.584971Z" fill="#A7B1BC" />
+    </svg>
+
+    const dropAngleDown = <svg width="6" height="4" viewBox="0 0 6 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3.01257 4C2.00914 3.25771 1.00343 2.51788 -7.76133e-08 1.77558C0.00685687 1.18372 0.015994 0.591861 0.022851 -2.61269e-07L3.12721 2.30411L5.99542 0.00740544C5.99542 0.308268 5.99543 0.60667 5.99771 0.907533C5.99771 1.2084 5.99771 1.50678 6 1.80765C5.00114 2.53761 4.00686 3.26757 3.01257 4Z" fill="#A7B1BC" />
+    </svg>
+
+    const angleRight  = <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6.82994 5.28995L2.58994 1.04995C2.49698 0.95622 2.38638 0.881826 2.26452 0.831057C2.14266 0.780288 2.01195 0.75415 1.87994 0.75415C1.74793 0.75415 1.61723 0.780288 1.49537 0.831057C1.37351 0.881826 1.26291 0.95622 1.16994 1.04995C0.983692 1.23731 0.87915 1.49076 0.87915 1.75495C0.87915 2.01913 0.983692 2.27259 1.16994 2.45995L4.70994 5.99995L1.16994 9.53995C0.983692 9.72731 0.87915 9.98076 0.87915 10.2449C0.87915 10.5091 0.983692 10.7626 1.16994 10.9499C1.26338 11.0426 1.3742 11.116 1.49604 11.1657C1.61787 11.2155 1.74834 11.2407 1.87994 11.2399C2.01155 11.2407 2.14201 11.2155 2.26385 11.1657C2.38569 11.116 2.4965 11.0426 2.58994 10.9499L6.82994 6.70995C6.92367 6.61699 6.99806 6.50638 7.04883 6.38453C7.0996 6.26267 7.12574 6.13196 7.12574 5.99995C7.12574 5.86794 7.0996 5.73723 7.04883 5.61537C6.99806 5.49351 6.92367 5.38291 6.82994 5.28995Z" fill="#A7B1BC"/>
+    </svg>
+    
+
+
+    const query = useQuery();
+    const chart_tab = query.get("chart_tab");
+
+    const { width } = useWindowSize();
+    const isMobile = width < 768
 
 
 
     return (
         <main>
 
-            {/* navbar */}
+            {/* navbar  */}
             <header className="flex fixed flex-col z-50 w-full h-[80px]   border-b border-[#32383F] bg-[#1C2127] p-4">
                 <div className="flex justify-between items-center">
                     {/* left wrap  */}
                     <div className="flex gap-3 items-center cursor-pointer">
                         <img src={icons.Logo} alt="logo" />
                         <img src={icons.LogoType} alt="logo type" />
+                        {!isMobile && <figure className="ml-10">{divider}</figure>}
+                        {!isMobile && <div className="flex relative gap-14 items-center ml-5">
+                            {MENU_CONTENT.slice(0, -1).map((chi, idx) => (
+                                <p
+                                    className={`text-[#A7B1BC] font-medium relative cursor-pointer group transition-all duration-300 
+            ${location.pathname === chi.path ? 'text-white' : ''}
+            hover:text-white`}
+                                    key={idx}
+                                    onClick={() => navigate(chi.path)}
+                                >
+                                    {chi.label}
+                                    <span
+                                        className={`absolute bottom-0 left-0 h-0.5 rounded-[8px] bg-white transition-all duration-300
+              ${location.pathname === chi.path ? 'w-full' : 'w-0 group-hover:w-full'}`}
+                                    ></span>
+                                </p>
+                            ))}
+                        </div>}
                     </div>
+
 
                     {/* right wrap */}
                     <div className="flex gap-3 items-center  pr-3">
-                        <img src={images.Avatar} alt="avatar" className="w-[32px] h-[32px] cursor-pointer" />
+                        <div className="flex gap-2 items-center bg-[#12171D] p-3">
+                            <img src={images.Avatar} alt="avatar" className="w-[32px] h-[32px] cursor-pointer" />
+                            <p className="text-[#A7B1BC] font-medium text-sm">Hassan Lam...</p>
+                        </div>
                         <img src={icons.Globe} alt="globe" className="cursor-pointer" />
                         <div className="ml-2">
                             <Components.HamburgerMenu open={isOpen} setOpen={setOpen} />
@@ -282,20 +429,21 @@ const Exchange = () => {
                 </Frame>
                 <Frame className="!pl-0 pr-0">
                     <div className="px-5">
-                        {/* <div className="bg-[#1C2127] cursor-pointer flex justify-between overflow-auto hidden-scrollbar p-1 px-1 gap-2 rounded-[8px]">
+                        {/* {chart_tab === "charts" && <div className="bg-[#1C2127] cursor-pointer flex justify-between overflow-auto hidden-scrollbar p-1 px-1 gap-2 rounded-[8px]">
                             {TABS.map((chi, idx) => <p className="text-white font-medium min-w-fit bg-[#E9F0FF0D] rounded-[8px] px-8 py-2 " key={idx} onClick={() => navigate(chi.path)} >{chi.label}</p>)}
-                        </div> */}
+                        </div>} */}
                         <Tab tabs={TABS} queryParam="chart_tab" />
 
-                        {/* <div className="flex justify-between items-center py-2 mt-5  overflow-x-auto w-full hidden-scrollbar">
+                        {chart_tab === "charts" && <div className="flex justify-between items-center py-2 mt-5  overflow-x-auto w-full hidden-scrollbar">
                             {CHART_DURATION.map((chi, idx) => (
-                                <p
-                                    className="text-[#A7B1BC] font-medium cursor-pointer px-2"
-                                    key={idx}
-                                    onClick={() => navigate(chi.query)}
-                                >
-                                    {chi.label}
-                                </p>
+                                <div key={idx} className={`${chi.is_active && "bg-[#555C63]"} rounded-[100px]`}>
+                                    <p
+                                        className="text-[#A7B1BC] font-medium cursor-pointer px-2"
+                                        onClick={() => navigate(chi.query)}
+                                    >
+                                        {chi.label}
+                                    </p>
+                                </div>
                             ))}
                             <img src={icons.AngleDown} alt="angle down" className="cursor-pointer px-2" />
                             <figure>{smallDivider}</figure>
@@ -306,72 +454,172 @@ const Exchange = () => {
                             <img src={icons.Undo} alt="undo" className="cursor-pointer px-2" />
                             <img src={icons.Redo} alt="redo" className="cursor-pointer px-2" />
                             <figure>{smallDivider}</figure>
-                        </div> */}
+                        </div>}
 
                         {/* orderbook */}
-                        <div className="flex justify-between items-center">
-                            <div className="flex gap-3 items-center py-5">
-                                {orderBooks.map((chi, idx) => <div key={idx} className={`${chi.selected && "bg-[#353945]"} cursor-pointer  w-[32px] h-[32px] grid place-items-center rounded-[4px]`}><figure key={idx} className="">{chi.icon}</figure></div>)}
+                        {chart_tab === "chart_orderbook" && <>
+                            <div className="flex justify-between items-center">
+                                <div className="flex gap-3 items-center py-5">
+                                    {orderBooks.map((chi, idx) => <div key={idx} className={`${chi.selected && "bg-[#353945]"} cursor-pointer  w-[32px] h-[32px] grid place-items-center rounded-[4px]`}><figure key={idx} className="">{chi.icon}</figure></div>)}
+                                </div>
+                                <Select options={perPageOptions as any} value={perPage} onChange={(e) => handleSelectChange(e)} />
                             </div>
-                            <Select options={perPageOptions as any} value={perPage} onChange={(e) => handleSelectChange(e)} />
-                        </div>
-                        {/* table display */}
-                        <table className="w-full table-auto">
-                            {/* Table Head */}
-                            <thead>
-                                <tr className="text-[#A7B1BC] font-medium">
-                                    {orderbookTableHead.map((chi, idx) => (
-                                        <th key={idx} className="w-[49px] text-[9px] text-right px-2 py-1">
-                                            {chi}
-                                        </th>
-                                    ))}
-                                </tr>
-                            </thead>
-
-                            {/* Table Body */}
-                            <tbody>
-                                {orderbookDetails.map((chi, idx) => (
-                                    <tr key={idx} className="text-xs text-white">
-                                        <td className="text-left text-[#FF6838] font-medium px-2 py-1">
-                                            {chi.amount}
-                                        </td>
-                                        <td className="text-right font-medium px-2 py-1">{chi.price}</td>
-                                        <td className="text-right font-medium px-2 py-1">{chi.total}</td>
+                            {/* table display */}
+                            {/* table display */}
+                            <table className="w-full table-auto">
+                                {/* Table Head */}
+                                <thead>
+                                    <tr className="text-[#A7B1BC] font-medium">
+                                        {orderbookTableHead.map((chi, idx) => (
+                                            <th key={idx} className="w-[49px] text-[9px] text-right px-2 py-1">
+                                                {chi}
+                                            </th>
+                                        ))}
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
 
-                        {/* Summary Section */}
-                        <div className="flex gap-2 items-center p-3 justify-center">
-                            <p className="text-[#25C26E] font-medium">36,641.20</p>
-                            <figure>{arrowUp}</figure>
-                            <p className="text-white font-medium">36,641.20</p>
-                        </div>
+                                {/* Table Body */}
+                                <tbody className="space-y-3">
+                                    {orderbookDetails.map((chi, idx) => (
+                                        <React.Fragment key={idx}>
+                                            <tr className="text-xs text-white">
+                                                <td className="text-left text-[#FF6838] font-medium px-2 py-2">
+                                                    {chi.price}
+                                                </td>
+                                                <td className={`text-right font-medium px-2 py-2 ${chi.is_amount_low && 'bg-[#FF6838] bg-opacity-[15%]'}`}>
+                                                    {chi.amount}
+                                                </td>
+                                                <td className={`text-right font-medium px-2 py-2 ${chi.is_total_low && 'bg-[#FF6838] bg-opacity-[15%]'}`}>
+                                                    {chi.total}
+                                                </td>
+                                            </tr>
 
+                                            {/* Show summary after every 5 rows */}
+                                            {(idx + 1) % 5 === 0 && (
+                                                <tr>
+                                                    <td colSpan={3} className="text-center p-3">
+                                                        <div className="flex gap-2 items-center justify-center">
+                                                            <p className="text-[#25C26E] font-medium">36,641.20</p>
+                                                            <figure>{arrowUp}</figure>
+                                                            <p className="text-white font-medium">36,641.20</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </React.Fragment>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </>}
+                    </div>
+                    <div className="flex justify-between mt-5 gap-2 items-center bg-[#262932] p-3">
+                        <Components.Button label="Buy" onClick={() => handleOpenDrawer('buy')} backgroundColor="bg-[#25C26E]" />
+                        <Components.Button label="Sell" onClick={() => handleOpenDrawer('sell')} backgroundColor="bg-[#FF554A]" />
                     </div>
 
 
-                    {/* <div className="py-3">
+
+
+                    {chart_tab === "charts" && <div className="py-3">
                         <hr className="bg-[#A7B1BC] opacity-[5%] w-full h-[1px]" />
                         <figure className="p-5 cursor-pointer">{expand}</figure>
                         <hr className="bg-[#A7B1BC] opacity-[5%] h-[1px]" />
-                    </div> */}
+                    </div>}
 
-                    {/* <ApexChart /> */}
+                    {chart_tab === "charts" && <ApexChart />}
 
 
                 </Frame>
                 <Frame className="px-5 min-h-[350px]">
-                    <Tab tabs={BOTTOM_TABS} queryParam="tab" />
-                    <div className="flex flex-col items-center justify-center text-center h-full">
-                        <h3 className="text-white">No Open Orders</h3>
-                        <p className="text-[#A7B1BC] w-[294px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id pulvinar nullam sit imperdiet pulvinar.</p>
+                    <Tab tabs={BOTTOM_TABS} queryParam="chart_tab" />
+                    <div className="flex flex-col gap-4 items-center justify-center text-center h-full">
+                        <h3 className="text-white font-bold text-lg">No Open Orders</h3>
+                        <p className="text-[#A7B1BC] w-[294px] font-medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id pulvinar nullam sit imperdiet pulvinar.</p>
                     </div>
                 </Frame>
 
             </section>
 
+
+            {/* drawer */}
+            <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} >
+                <section className="p-4 w-full mt-4 flex flex-col gap-6">
+                    <div className="flex  rounded-[10px] bg-[#1C2127] justify-between items-center ">
+                        <button className={`${isBuy && "border-[#25C26E] border rounded-l-[10px] rounded-r-[10px]  "} text-center   w-full p-2 text-white font-medium text-xs`}>Buy</button>
+                        <button className={`${isSell && "border-[#25C26E] border rounded-l-[10px] rounded-r-[10px] "} text-center w-full p-2 text-[#A7B1BC] font-medium text-xs`}>Sell</button>
+                    </div>
+
+                    <div className="flex gap-3 justify-between items-center">
+                        {drawerTabs.map((chi, idx) => <p key={idx} className={`${chi.is_active && "bg-[#353945] text-white "} px-[24px] text-[#A7B1BC] min-w-fit font-medium py-[6px] rounded-[100px]`}>{chi.label}</p>)}
+                    </div>
+
+                    <div className="flex justify-between items-center gap-2 px-[15px] py-[14px] border border-[#373B3F]  rounded-[8px]">
+                        <div className="flex gap-1 items-center ">
+                            <p className="font-medium text-xs text-[#A7B1BC]">Limit price</p>
+                            <p className="translate-y-[1px]">{info}</p>
+                        </div>
+                        <p className="font-medium text-xs text-[#A7B1BC]">0.00 USD</p>
+                    </div>
+
+                    <div className="flex justify-between items-center gap-2 px-[15px] py-[14px] border border-[#373B3F]  rounded-[8px]">
+                        <div className="flex gap-1 items-center ">
+                            <p className="font-medium text-xs text-[#A7B1BC]">Amount</p>
+                            <p className="translate-y-[1px]">{info}</p>
+                        </div>
+                        <p className="font-medium text-xs text-[#A7B1BC]">0.00 USD</p>
+                    </div>
+
+                    <div className="flex justify-between items-center gap-2 px-[15px] py-[14px] border border-[#373B3F]  rounded-[8px]">
+                        <div className="flex gap-1 items-center ">
+                            <p className="font-medium text-xs text-[#A7B1BC]">Type</p>
+                            <p className="translate-y-[1px]">{info}</p>
+                        </div>
+                        <div>
+                            <div className="flex gap-3 items-center">
+                                <p className="font-medium text-xs text-[#A7B1BC]">Good till cancelled</p>
+                                <figure className="cursor-pointer">{tinyDrop}</figure>
+                            </div>
+                        </div>
+
+                    </div>
+                    {/* checkbox */}
+                    <div className="flex justify-between items-center">
+                        <p className="font-medium text-xs text-[#A7B1BC]">Total</p>
+                        <p className="font-medium text-xs text-[#A7B1BC]">0.00</p>
+                    </div>
+                    {/* button */}
+                    <Components.Button label="Buy BTC" className="bg-gradient-to-r from-gradientStart !font-normal via-gradientMid to-gradientEnd" onClick={() => { }} />
+
+                    {line}
+
+                    <div className="flex justify-between items-baseline">
+                        <div className="flex flex-col gap-1">
+                            <p className="font-medium text-xs text-[#A7B1BC]">Total account value</p>
+                            <p className="text-white font-bold text-sm">0.00</p>
+                        </div>
+                        <div className="flex gap-1 items-center cursor-pointer">
+                            <p className="font-medium text-xs text-[#A7B1BC] ">NGN</p>
+                            <figure >{dropAngleDown}</figure>
+                        </div>
+                    </div>
+
+                    <div className="flex justify-between items-baseline">
+                        <div className="flex flex-col gap-1">
+                            <p className="font-medium text-xs text-[#A7B1BC]">Open Orders</p>
+                            <p className="text-white font-bold text-sm">0.00</p>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <p className="font-medium text-xs text-[#A7B1BC]">Available</p>
+                            <p className="text-white font-bold text-sm">0.00</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <Components.Button label="Deposit" backgroundColor="bg-[#2764FF]" className="!w-24" onClick={() => { }} />
+                    </div>
+
+                </section>
+            </Drawer>
         </main>
     )
 }

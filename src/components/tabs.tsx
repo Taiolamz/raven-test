@@ -9,7 +9,7 @@ interface TabItem {
 
 interface TabProps {
     tabs: TabItem[];
-    queryParam: string;
+    queryParam?: string
 }
 
 const Tab: React.FC<TabProps> = ({ tabs, queryParam }) => {
@@ -18,14 +18,13 @@ const Tab: React.FC<TabProps> = ({ tabs, queryParam }) => {
 
     const isActive = (tabName: string) => {
         const queryParams = new URLSearchParams(location.search);
-        return queryParams.get(queryParam) === tabName;
+        return queryParams.get(queryParam!) === tabName;
     };
 
-    const handleTabClick = (path: string, queryParam: string, tabName: string) => {
-        const separator = path.includes('?') ? '&' : '?';
-        const newPath = `${path}${separator}${queryParam}=${tabName}`;
-        navigate(newPath);
+    const handleTabClick = (path: string) => {
+        navigate(path);
     };
+    
 
     return (
         <div className="bg-[#1C2127] cursor-pointer flex justify-between items-center overflow-auto hidden-scrollbar p-1 px-1 gap-2 rounded-[8px]">
@@ -33,7 +32,7 @@ const Tab: React.FC<TabProps> = ({ tabs, queryParam }) => {
                 <React.Fragment key={idx}>
                     <p
                         className={`text-white font-medium min-w-fit rounded-[8px] px-8 py-2 my-[.5px] ${isActive(tab.tab) ? 'bg-[#E9F0FF0D]' : ''}`}
-                        onClick={() => handleTabClick(tab.path, queryParam, tab.tab)}
+                        onClick={() => handleTabClick(tab.path)}
                     >
                         {tab.label}
                     </p>
@@ -44,4 +43,4 @@ const Tab: React.FC<TabProps> = ({ tabs, queryParam }) => {
     );
 };
 
-export default Tab
+export default Tab;
