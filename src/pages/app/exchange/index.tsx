@@ -384,12 +384,11 @@ const Exchange = () => {
         <path d="M7.70033 4.03513C7.70098 4.15071 7.67507 4.26489 7.62461 4.36876C7.57415 4.47263 7.5005 4.5634 7.4094 4.63399C7.34059 4.69219 7.25982 4.73438 7.17287 4.75756C7.14419 4.77208 7.11272 4.78019 7.08062 4.78132C6.50354 4.93661 5.99354 5.27877 5.62963 5.7548C5.26573 6.23083 5.06824 6.81415 5.06776 7.41438C5.07019 7.96194 5.23487 8.49638 5.54082 8.94954C5.54082 8.94954 5.55738 8.9733 5.56448 8.98043C5.69091 9.11724 5.76032 9.29755 5.75844 9.48423C5.75942 9.64983 5.70605 9.81113 5.60661 9.9432C5.50716 10.0753 5.36719 10.1707 5.20831 10.2148C5.04944 10.2589 4.88053 10.2492 4.72771 10.1872C4.57489 10.1251 4.44668 10.0142 4.36291 9.87158C4.27507 9.75071 4.19602 9.62365 4.12638 9.49136C3.76933 8.85806 3.58265 8.14222 3.58473 7.41438C3.58436 6.58398 3.82697 5.7718 4.28242 5.07886C4.73788 4.38592 5.38606 3.8428 6.14633 3.51707C6.35906 3.42868 6.57807 3.35639 6.80152 3.30082C6.85216 3.29059 6.90363 3.28502 6.95527 3.28418C7.0534 3.28387 7.15061 3.30309 7.2413 3.34075C7.33199 3.37841 7.41437 3.43375 7.48365 3.50358C7.55293 3.5734 7.60774 3.65633 7.64493 3.74756C7.68213 3.8388 7.70095 3.93654 7.70033 4.03513Z" fill="#A5B1BD" />
     </svg>
 
-const [dropCoins, setDropCoins] = useState(false)
+    const [dropCoins, setDropCoins] = useState(false)
 
 
     return (
-        <main>
-
+        <main cla>
             {/* navbar  */}
             <header className="flex fixed flex-col z-50 w-full h-[80px]   border-b border-[#32383F] bg-[#1C2127] p-4">
                 <div className="flex justify-between items-center">
@@ -437,7 +436,7 @@ const [dropCoins, setDropCoins] = useState(false)
             </header>
 
 
-            <section className="h-[calc(100vh-80px)] w-full   overflow-auto absolute flex flex-col gap-2  pt-2 pb-24 bottom-0">
+            <section className={`h-[calc(100vh-80px)] w-full   ${dropCoins ? "overflow-hidden" : "overflow-auto"}  absolute flex flex-col gap-2  pt-2 pb-24 bottom-0`}>
                 {/* top wrap */}
                 <Frame className=" lg:flex lg:items-center">
                     <div className="flex  gap-2 items-center ">
@@ -448,52 +447,60 @@ const [dropCoins, setDropCoins] = useState(false)
                         </div>
                         <p className="text-white font-medium text-lg lg:ml-0 m l">BTC/USDT</p>
 
-                        <img src={icons.Dropdown} alt="dropdown" className="ml-4 cursor-pointer" onClick={() =>setDropCoins(!dropCoins)} />
+                        <img src={icons.Dropdown} alt="dropdown" className="ml-4 cursor-pointer" onClick={() => setDropCoins(!dropCoins)} />
                         <p className="text-[#00C076] font-medium text-lg ml-4">$20,634</p>
 
-                        {/* dropdown */}
+                        {/* Overlay */}
+                        {dropCoins && (
+                            <div
+                                className="bg-[black] overflow-hidden bg-opacity-50 left-0 absolute w-screen h-screen z-10 bottom-0"
+                                onClick={() => setDropCoins(false)}
+                            ></div>
+                        )}
+
+                        {/* Dropdown */}
                         <Frame
-  className={`lg:w-[444px] w-[320px] shadow-lg absolute z-[999] pr-2 overflow-hidden hidden-scrollbar lg:top-24 top-14 ${
-    dropCoins ? "h-[458px] opacity-100" : "h-0 opacity-0"
-  } duration-300 transition-all`}
->
-  <div className="w-full h-full flex flex-col">
-    {/* Header */}
-    <p className="font-bold text-white">Select Market</p>
+                            className={`lg:w-[480px] w-[320px] shadow-lg absolute z-[999] pr-2 lg:top-24 top-14 ${dropCoins ? "h-[458px] opacity-100" : "h-0 opacity-0"
+                                } duration-300 transition-all`}
+                        >
+                            <div className="w-full h-full flex flex-col">
+                                {/* Header */}
+                                <p className="font-bold text-white">Select Market</p>
 
-    {/* Search Input */}
-    <div className="grid place-items-center relative border-b py-3 border-[#394047]">
-      <figure className="absolute left-0 ml-3">{searchIcon}</figure>
-      <input
-        type="text"
-        placeholder="Search"
-        className="text-[#A5B1BD] pl-8 w-full placeholder:text-[#A5B1BD] border-[#373B3F] border rounded-[8px] p-1 bg-[#20252B]"
-      />
-    </div>
+                                {/* Search Input */}
+                                <div className="grid place-items-center relative border-b py-3 border-[#394047]">
+                                    <figure className="absolute left-0 ml-3">{searchIcon}</figure>
+                                    <input
+                                        type="text"
+                                        placeholder="Search"
+                                        className="text-[#A5B1BD] pl-8 w-full placeholder:text-[#A5B1BD] border-[#373B3F] border rounded-[8px] p-1 bg-[#20252B]"
+                                    />
+                                </div>
 
-    {/* Filter Options */}
-    <div className="flex gap-3 items-center py-3 border-b border-[#394047]">
-      <p className="text-white font-medium text-sm bg-[#353945] p-1 px-[8px] rounded-[100px] cursor-pointer">All</p>
-      <p className="text-[#A7B1BC] font-medium text-sm cursor-pointer">USD</p>
-      <p className="text-[#A7B1BC] font-medium text-sm cursor-pointer">BTC</p>
-    </div>
+                                {/* Filter Options */}
+                                <div className="flex gap-3 items-center py-3 border-b border-[#394047]">
+                                    <p className="text-white font-medium text-sm bg-[#353945] p-1 px-[8px] rounded-[100px] cursor-pointer">All</p>
+                                    <p className="text-[#A7B1BC] font-medium text-sm cursor-pointer">USD</p>
+                                    <p className="text-[#A7B1BC] font-medium text-sm cursor-pointer">BTC</p>
+                                </div>
 
-    {/* Scrollable Content */}
-    <div className="flex flex-col gap-3 mt-5 w-full overflow-y-auto h-[calc(100%-120px)] hidden-scrollbar">
-      {[...Array(100)].map((_, idx) => (
-        <div className="flex gap-10 items-center" key={idx}>
-          <div className="flex">
-            <figure>{bitCoin}</figure>
-            <figure className="-ml-2">{tCoin}</figure>
-          </div>
-          <p className="text-sm font-medium text-[#A7B1BC] min-w-fit">BTC - USDT</p>
-          <p className="text-sm font-medium text-[#A7B1BC]">$23,234.6</p>
-          <p className="text-[#25C26E] font-medium text-sm">+0.005%</p>
-        </div>
-      ))}
-    </div>
-  </div>
-</Frame>
+                                {/* Scrollable Content */}
+                                <div className="flex flex-col gap-5 mt-5 w-full overflow-y-auto h-[calc(100%-120px)] hidden-scrollbar">
+                                    {[...Array(100)].map((_, idx) => (
+                                        <div className="flex gap-10 justify-between items-center" key={idx}>
+                                            <div className="flex">
+                                                <figure>{bitCoin}</figure>
+                                                <figure className="-ml-2">{tCoin}</figure>
+                                            </div>
+                                            <p className="text-sm font-medium text-[#A7B1BC] min-w-fit">BTC - USDT</p>
+                                            <p className="text-sm font-medium text-[#A7B1BC]">$23,234.6</p>
+                                            <p className="text-[#25C26E] font-medium text-sm">+0.005%</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </Frame>
+
 
 
                     </div>
