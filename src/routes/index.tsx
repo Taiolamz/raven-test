@@ -1,9 +1,11 @@
 
 import { Route, Routes } from "react-router-dom";
 import { routesPath } from "../utils/route-path";
-import Exchange from "../pages/app/exchange";
+// import Exchange from "../pages/app/exchange";
 import PageNotFound from "../pages/404";
+import { lazy } from "react";
 
+const Exchange = lazy(() => import("../pages/app/exchange"))
 
 
 export default function AppRoute() {

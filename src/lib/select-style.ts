@@ -1,5 +1,5 @@
 export const customSelectStyles = {
-    control: (provided: any, state: any) => ({
+    control: (provided: any)  => ({
       ...provided,
       outline: "none",
       boxShadow: "none",
@@ -22,17 +22,17 @@ export const customSelectStyles = {
     indicatorSeparator: () => ({
       display: "none",
     }),
-    dropdownIndicator: (state: any, provided: any) => ({
+    dropdownIndicator: (provided: any) => ({
       ...provided,
-      color:"",
+      color:"white",
     }),
   
-    singleValue: (provided: any, state: any) => ({
+    singleValue: (provided: any)  => ({
       ...provided,
       color:"#353945",
       fontWeight:500,
     }),
-    option: (base: any, state: any) => ({
+    option: (base: any)  => ({
       ...base,
       color:"white",
       cursor: "pointer",
