@@ -27,11 +27,11 @@ const Tab: React.FC<TabProps> = ({ tabs, queryParam }) => {
     
 
     return (
-        <div className="bg-[#1C2127] cursor-pointer flex justify-between items-center overflow-auto hidden-scrollbar p-1 px-1 gap-2 rounded-[8px]">
+        <div className="bg-[#1C2127] cursor-pointer flex lg:justify-normal lg:w-fit w-full justify-between items-center overflow-auto hidden-scrollbar p-[4px] px-[4px] gap-2 rounded-[8px]">
             {tabs.map((tab, idx) => (
                 <React.Fragment key={idx}>
                     <p
-                        className={`text-white font-medium min-w-fit rounded-[8px] px-8 py-2 my-[.5px] ${isActive(tab.tab) ? 'bg-[#E9F0FF0D]' : ''}`}
+                        className={`text-white font-medium min-w-fit rounded-[8px] px-8 py-1 my-[.5px] ${isActive(tab.tab) ? 'bg-[#E9F0FF0D]' : ''}`}
                         onClick={() => handleTabClick(tab.path)}
                     >
                         {tab.label}

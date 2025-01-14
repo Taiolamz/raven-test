@@ -7,23 +7,13 @@ export const customSelectStyles = {
       height: ".1rem",
       paddingTop: "unset",
       borderRadius: ".7rem",
-      backgroundColor:"",
+      backgroundColor:"#353945",
+      color:"white",
       cursor: "pointer",
-      borderColor: state.selectProps.value
-        ? "var(--blue-color)"
-        : (state.selectProps.value && window.location.pathname === "/profile") ||
-          window.location.pathname === "/orders" ||
-          window.location.pathname === "/promotion"
-        ? "var(--blue-color)"
-        : provided.borderColor,
-      "&:hover": {
-        borderColor: state.selectProps.value
-          ? "var(--blue-color)"
-          : provided.borderColor,
-      },
+      borderColor:"",
       placeholder: (provided: any) => ({
         ...provided,
-        color: "red",
+        color: "white",
       }),
       "&:focus": {
         border: "transparent",
@@ -34,28 +24,18 @@ export const customSelectStyles = {
     }),
     dropdownIndicator: (state: any, provided: any) => ({
       ...provided,
-      color:
-        // (window.location.pathname === "/profile") ||
-        window.location.pathname === "/orders" ||
-        window.location.pathname === "/promotion"
-          ? "var(--blue-color)"
-          : "var(--border-color)",
+      color:"",
     }),
   
     singleValue: (provided: any, state: any) => ({
       ...provided,
-      color:
-        // window.location.pathname === "/profile" ||
-        window.location.pathname === "/orders" ||
-        window.location.pathname === "/promotion"
-          ? "var(--blue-color)"
-          : "",
-      fontWeight:500;
+      color:"#353945",
+      fontWeight:500,
     }),
     option: (base: any, state: any) => ({
       ...base,
-      color: state.isSelected ? "var(--white-color)" : "var(--black-color)",
+      color:"white",
       cursor: "pointer",
-      backgroundColor: state.isSelected ? "var(--blue-color)" : "white",
+      backgroundColor: "#353945"
     }),
   };
