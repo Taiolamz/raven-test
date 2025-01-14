@@ -29,7 +29,7 @@ export const customSelectStyles = {
   
     singleValue: (provided: any)  => ({
       ...provided,
-      color:"#353945",
+      color:"white",
       fontWeight:500,
     }),
     option: (base: any)  => ({

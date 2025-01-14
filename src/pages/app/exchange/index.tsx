@@ -12,6 +12,7 @@ import Drawer from "../../../components/drawer"
 import { useQuery } from "../../../hooks/useQuery"
 import useWindowSize from "../../../hooks/usewindowSize"
 import { customSelectStyles } from "../../../lib/select-style"
+import { MenuDropdown } from "../../../components/menuDropdown"
 
 
 const Exchange = () => {
@@ -239,7 +240,7 @@ const Exchange = () => {
             is_total_low: true,
             is_normal: false,
             is_amount_low: true,
-            is_amount_high: false
+            is_amount_high: true
         },
         {
             price: "36920.12",
@@ -257,7 +258,7 @@ const Exchange = () => {
             is_total_low: false,
             is_normal: false,
             is_amount_low: false,
-            is_amount_high: false
+            is_amount_high: true
         },
         {
             price: "36920.12",
@@ -266,8 +267,9 @@ const Exchange = () => {
             is_total_low: false,
             is_normal: false,
             is_amount_low: false,
-            is_amount_high: false
+            is_amount_high: true
         },
+
     ]
 
     const arrowUp = <svg width="7" height="10" viewBox="0 0 7 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -352,6 +354,37 @@ const Exchange = () => {
         </defs>
     </svg>
 
+    const bitCoin = <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_2094_4446)">
+            <path d="M31 16C31 24.2843 24.2843 31 16 31C7.71573 31 1 24.2843 1 16C1 7.71573 7.71573 1 16 1C24.2843 1 31 7.71573 31 16Z" fill="#F7931A" stroke="#262932" stroke-width="2" />
+            <path d="M23.032 14.02C23.346 11.924 21.749 10.797 19.567 10.045L20.275 7.205L18.547 6.775L17.857 9.54C17.403 9.426 16.937 9.32 16.472 9.214L17.167 6.431L15.439 6L14.731 8.839C14.355 8.753 13.985 8.669 13.627 8.579L13.629 8.57L11.245 7.975L10.785 9.821C10.785 9.821 12.068 10.115 12.041 10.133C12.741 10.308 12.867 10.771 12.846 11.139L12.04 14.374C12.088 14.386 12.15 14.404 12.22 14.431L12.037 14.386L10.907 18.918C10.821 19.13 10.604 19.449 10.114 19.328C10.132 19.353 8.858 19.015 8.858 19.015L8 20.993L10.25 21.554C10.668 21.659 11.078 21.769 11.481 21.872L10.766 24.744L12.493 25.174L13.201 22.334C13.673 22.461 14.131 22.579 14.579 22.691L13.873 25.519L15.601 25.949L16.316 23.083C19.264 23.641 21.48 23.416 22.413 20.75C23.165 18.604 22.376 17.365 20.825 16.558C21.955 16.298 22.805 15.555 23.032 14.02ZM19.082 19.558C18.549 21.705 14.934 20.544 13.762 20.253L14.712 16.448C15.884 16.741 19.641 17.32 19.082 19.558ZM19.617 13.989C19.13 15.942 16.122 14.949 15.147 14.706L16.007 11.256C16.982 11.499 20.125 11.952 19.617 13.989Z" fill="white" />
+        </g>
+        <defs>
+            <clipPath id="clip0_2094_4446">
+                <rect width="32" height="32" fill="white" />
+            </clipPath>
+        </defs>
+    </svg>
+
+    const tCoin = <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_2094_4447)">
+            <path d="M31 16C31 24.2843 24.2843 31 16 31C7.71573 31 1 24.2843 1 16C1 7.71573 7.71573 1 16 1C24.2843 1 31 7.71573 31 16Z" fill="#26A17B" stroke="#262932" stroke-width="2" />
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M17.622 17.564V17.562C17.512 17.57 16.945 17.604 15.68 17.604C14.67 17.604 13.959 17.574 13.709 17.562V17.565C9.821 17.394 6.919 16.717 6.919 15.907C6.919 15.098 9.821 14.421 13.709 14.247V16.891C13.963 16.909 14.691 16.952 15.697 16.952C16.904 16.952 17.509 16.902 17.622 16.892V14.249C21.502 14.422 24.397 15.099 24.397 15.907C24.397 16.717 21.502 17.392 17.622 17.564ZM17.622 13.974V11.608H23.036V8H8.295V11.608H13.709V13.973C9.309 14.175 6 15.047 6 16.091C6 17.135 9.309 18.006 13.709 18.209V25.791H17.622V18.207C22.015 18.005 25.316 17.134 25.316 16.091C25.316 15.048 22.015 14.177 17.622 13.974Z" fill="white" />
+        </g>
+        <defs>
+            <clipPath id="clip0_2094_4447">
+                <rect width="32" height="32" fill="white" />
+            </clipPath>
+        </defs>
+    </svg>
+
+    const searchIcon = <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.99326 0.00237398C5.69301 0.00113582 4.41829 0.36494 3.31287 1.05275C2.4977 1.56292 1.79523 2.23549 1.2488 3.02898C0.70236 3.82246 0.323552 4.72003 0.135737 5.6663C-0.0520771 6.61256 -0.0449199 7.58746 0.156786 8.53083C0.358491 9.47421 0.750464 10.3661 1.30851 11.1513C1.86655 11.9366 2.57883 12.5987 3.40141 13.0967C4.22398 13.5947 5.1394 13.9181 6.09119 14.0469C7.04297 14.1758 8.01095 14.1073 8.93536 13.8457C9.85978 13.5841 10.721 13.135 11.466 12.526L10.3945 11.4424C9.42921 12.2173 8.22884 12.6366 6.99326 12.6306C5.89908 12.6301 4.8296 12.3038 3.91992 11.6929C3.01025 11.082 2.30122 10.214 1.88239 9.19837C1.46356 8.18278 1.35374 7.06526 1.56681 5.98699C1.77987 4.90872 2.30624 3.91808 3.07944 3.14025C3.85264 2.36242 4.83796 1.8323 5.91092 1.61685C6.98387 1.40141 8.09631 1.51031 9.10768 1.92981C10.1191 2.3493 10.984 3.06057 11.5932 3.97374C12.2024 4.8869 12.5285 5.96099 12.5304 7.0603C12.5331 8.24444 12.152 9.39728 11.4447 10.3445L12.5233 11.4305C13.3396 10.3884 13.8473 9.13652 13.9885 7.81804C14.1297 6.49956 13.8985 5.16779 13.3215 3.97513C12.7445 2.78247 11.845 1.77712 10.7258 1.07412C9.60667 0.371122 8.31314 -0.00111528 6.99326 2.51005e-06V0.00237398Z" fill="#A5B1BD" />
+        <path d="M15.7851 15.7793C15.6437 15.9207 15.4523 16 15.2529 16C15.0534 16 14.8621 15.9207 14.7207 15.7793L11.4731 12.526C11.8589 12.2015 12.2107 11.8384 12.5233 11.4424L15.7851 14.7194C15.9229 14.8611 16.0001 15.0513 16.0001 15.2494C16.0001 15.4475 15.9229 15.6377 15.7851 15.7793Z" fill="#A5B1BD" />
+        <path d="M7.70033 4.03513C7.70098 4.15071 7.67507 4.26489 7.62461 4.36876C7.57415 4.47263 7.5005 4.5634 7.4094 4.63399C7.34059 4.69219 7.25982 4.73438 7.17287 4.75756C7.14419 4.77208 7.11272 4.78019 7.08062 4.78132C6.50354 4.93661 5.99354 5.27877 5.62963 5.7548C5.26573 6.23083 5.06824 6.81415 5.06776 7.41438C5.07019 7.96194 5.23487 8.49638 5.54082 8.94954C5.54082 8.94954 5.55738 8.9733 5.56448 8.98043C5.69091 9.11724 5.76032 9.29755 5.75844 9.48423C5.75942 9.64983 5.70605 9.81113 5.60661 9.9432C5.50716 10.0753 5.36719 10.1707 5.20831 10.2148C5.04944 10.2589 4.88053 10.2492 4.72771 10.1872C4.57489 10.1251 4.44668 10.0142 4.36291 9.87158C4.27507 9.75071 4.19602 9.62365 4.12638 9.49136C3.76933 8.85806 3.58265 8.14222 3.58473 7.41438C3.58436 6.58398 3.82697 5.7718 4.28242 5.07886C4.73788 4.38592 5.38606 3.8428 6.14633 3.51707C6.35906 3.42868 6.57807 3.35639 6.80152 3.30082C6.85216 3.29059 6.90363 3.28502 6.95527 3.28418C7.0534 3.28387 7.15061 3.30309 7.2413 3.34075C7.33199 3.37841 7.41437 3.43375 7.48365 3.50358C7.55293 3.5734 7.60774 3.65633 7.64493 3.74756C7.68213 3.8388 7.70095 3.93654 7.70033 4.03513Z" fill="#A5B1BD" />
+    </svg>
+
+const [dropCoins, setDropCoins] = useState(false)
 
 
     return (
@@ -404,7 +437,7 @@ const Exchange = () => {
             </header>
 
 
-            <section className="h-[calc(100vh-80px)] w-full  overflow-auto absolute flex flex-col gap-2  pt-2 pb-24 bottom-0">
+            <section className="h-[calc(100vh-80px)] w-full   overflow-auto absolute flex flex-col gap-2  pt-2 pb-24 bottom-0">
                 {/* top wrap */}
                 <Frame className=" lg:flex lg:items-center">
                     <div className="flex  gap-2 items-center ">
@@ -415,8 +448,53 @@ const Exchange = () => {
                         </div>
                         <p className="text-white font-medium text-lg lg:ml-0 m l">BTC/USDT</p>
 
-                        <img src={icons.Dropdown} alt="dropdown" className="ml-4 cursor-pointer" />
+                        <img src={icons.Dropdown} alt="dropdown" className="ml-4 cursor-pointer" onClick={() =>setDropCoins(!dropCoins)} />
                         <p className="text-[#00C076] font-medium text-lg ml-4">$20,634</p>
+
+                        {/* dropdown */}
+                        <Frame
+  className={`lg:w-[444px] w-[320px] shadow-lg absolute z-[999] pr-2 overflow-hidden hidden-scrollbar lg:top-24 top-14 ${
+    dropCoins ? "h-[458px] opacity-100" : "h-0 opacity-0"
+  } duration-300 transition-all`}
+>
+  <div className="w-full h-full flex flex-col">
+    {/* Header */}
+    <p className="font-bold text-white">Select Market</p>
+
+    {/* Search Input */}
+    <div className="grid place-items-center relative border-b py-3 border-[#394047]">
+      <figure className="absolute left-0 ml-3">{searchIcon}</figure>
+      <input
+        type="text"
+        placeholder="Search"
+        className="text-[#A5B1BD] pl-8 w-full placeholder:text-[#A5B1BD] border-[#373B3F] border rounded-[8px] p-1 bg-[#20252B]"
+      />
+    </div>
+
+    {/* Filter Options */}
+    <div className="flex gap-3 items-center py-3 border-b border-[#394047]">
+      <p className="text-white font-medium text-sm bg-[#353945] p-1 px-[8px] rounded-[100px] cursor-pointer">All</p>
+      <p className="text-[#A7B1BC] font-medium text-sm cursor-pointer">USD</p>
+      <p className="text-[#A7B1BC] font-medium text-sm cursor-pointer">BTC</p>
+    </div>
+
+    {/* Scrollable Content */}
+    <div className="flex flex-col gap-3 mt-5 w-full overflow-y-auto h-[calc(100%-120px)] hidden-scrollbar">
+      {[...Array(100)].map((_, idx) => (
+        <div className="flex gap-10 items-center" key={idx}>
+          <div className="flex">
+            <figure>{bitCoin}</figure>
+            <figure className="-ml-2">{tCoin}</figure>
+          </div>
+          <p className="text-sm font-medium text-[#A7B1BC] min-w-fit">BTC - USDT</p>
+          <p className="text-sm font-medium text-[#A7B1BC]">$23,234.6</p>
+          <p className="text-[#25C26E] font-medium text-sm">+0.005%</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</Frame>
+
 
                     </div>
                     <div className="flex items-center lg:gap-10 gap-5 w-full overflow-x-auto py-4 hidden-scrollbar">
@@ -498,54 +576,66 @@ const Exchange = () => {
                                             {orderBooks.map((chi, idx) => <div key={idx} className={`${chi.selected && "bg-[#353945]"} cursor-pointer  w-[32px] h-[32px] grid place-items-center rounded-[4px]`}><figure key={idx} className="">{chi.icon}</figure></div>)}
                                         </div>
                                         <Select options={perPageOptions as any} value={perPage} onChange={(e) => handleSelectChange(e)} styles={customSelectStyles} />
+                                        {/* <div className="flex gap-5 items-center bg-[#353945] p-1 rounded-[4px]"> */}
+                                        {/* <p>10</p>
+                                            <figure>{selectAngleDown}</figure> */}
+                                        {/* </div> */}
                                     </div>
                                     {/* table display */}
                                     {/* table display */}
-                                    <table className="w-full table-auto">
-                                        {/* Table Head */}
-                                        <thead>
-                                            <tr className="text-[#A7B1BC] font-medium">
-                                                {orderbookTableHead.map((chi, idx) => (
-                                                    <th key={idx} className="w-[49px] text-[9px] text-right px-2 py-1">
-                                                        {chi}
-                                                    </th>
-                                                ))}
-                                            </tr>
-                                        </thead>
 
-                                        {/* Table Body */}
-                                        <tbody className="space-y-3">
-                                            {orderbookDetails.map((chi, idx) => (
-                                                <React.Fragment key={idx}>
-                                                    <tr className="text-xs text-white">
-                                                        <td className="text-left text-[#FF6838] font-medium px-2 py-2">
-                                                            {chi.price}
-                                                        </td>
-                                                        <td className={`text-right font-medium px-2 py-2 ${chi.is_amount_low && 'bg-[#FF6838] bg-opacity-[15%]'}`}>
-                                                            {chi.amount}
-                                                        </td>
-                                                        <td className={`text-right font-medium px-2 py-2 ${chi.is_total_low && 'bg-[#FF6838] bg-opacity-[15%]'}`}>
-                                                            {chi.total}
-                                                        </td>
-                                                    </tr>
+                                    <div className="overflow-auto max-h-[400px]">
+                                        <table className="w-full table-auto">
+                                            {/* Table Head */}
+                                            <thead className="sticky top-0 bg-[#1E293B]">
+                                                <tr className="text-[#A7B1BC] font-medium">
+                                                    {orderbookTableHead.map((chi, idx) => (
+                                                        <th key={idx} className="w-[49px] text-[9px] text-right px-2 py-1">
+                                                            {chi}
+                                                        </th>
+                                                    ))}
+                                                </tr>
+                                            </thead>
 
-
-                                                    {(idx + 1) % 5 === 0 && (
-                                                        <tr>
-                                                            <td colSpan={3} className="text-center p-3">
-                                                                <div className="flex gap-2 items-center justify-center">
-                                                                    <p className="text-[#25C26E] font-medium">36,641.20</p>
-                                                                    <figure>{arrowUp}</figure>
-                                                                    <p className="text-white font-medium">36,641.20</p>
-                                                                </div>
+                                            {/* Table Body */}
+                                            <tbody>
+                                                {orderbookDetails.map((chi, idx) => (
+                                                    <React.Fragment key={idx}>
+                                                        <tr className="text-xs text-white">
+                                                            <td className="text-left text-[#FF6838] font-medium px-2 py-2">
+                                                                {chi.price}
+                                                            </td>
+                                                            <td
+                                                                className={`text-right font-medium px-2 py-2 ${chi.is_amount_low && 'bg-[#FF6838] bg-opacity-[15%]'
+                                                                    }`}
+                                                            >
+                                                                {chi.amount}
+                                                            </td>
+                                                            <td
+                                                                className={`text-right font-medium px-2 py-2 ${chi.is_total_low && 'bg-[#FF6838] bg-opacity-[15%]'
+                                                                    }`}
+                                                            >
+                                                                {chi.total}
                                                             </td>
                                                         </tr>
-                                                    )}
 
-                                                </React.Fragment>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                                        {(idx + 1) % 5 === 0 && (
+                                                            <tr>
+                                                                <td colSpan={3} className="text-center p-3">
+                                                                    <div className="flex gap-2 items-center justify-center">
+                                                                        <p className="text-[#25C26E] font-medium">36,641.20</p>
+                                                                        <figure>{arrowUp}</figure>
+                                                                        <p className="text-white font-medium">36,641.20</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        )}
+                                                    </React.Fragment>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
                                 </>
                                 }
                             </div>
@@ -586,7 +676,7 @@ const Exchange = () => {
                                         <div className="flex gap-3 items-center py-5 overflow-auto hidden-scrollbar">
                                             {orderBooks.map((chi, idx) => <div key={idx} className={`${chi.selected && "bg-[#353945]"} cursor-pointer  w-[32px] h-[32px] grid place-items-center rounded-[4px]`}><figure key={idx} className="">{chi.icon}</figure></div>)}
                                         </div>
-                                        <Select options={perPageOptions as any} value={perPage} onChange={(e) => handleSelectChange(e)} />
+                                        <Select options={perPageOptions as any} value={perPage} onChange={(e) => handleSelectChange(e)} styles={customSelectStyles} />
                                     </div>
                                     {/* table display */}
                                     {/* table display */}
@@ -594,7 +684,7 @@ const Exchange = () => {
                                         <table className="w-full table-auto ">
                                             {/* Table Head */}
                                             <thead>
-                                                <tr className="text-[#A7B1BC] font-medium">
+                                                <tr className="text-[#A7B1BC] font-medium ">
                                                     {orderbookTableHead.map((chi, idx) => (
                                                         <th key={idx} className="w-[49px] text-[9px] text-right px-2 py-1">
                                                             {chi}
@@ -608,13 +698,13 @@ const Exchange = () => {
                                                 {orderbookDetails.map((chi, idx) => (
                                                     <React.Fragment key={idx}>
                                                         <tr className="text-xs text-white">
-                                                            <td className="text-left text-[#FF6838] font-medium px-2 py-2">
+                                                            <td className="text-left text-[#FF6838] font-medium px-2 py-4">
                                                                 {chi.price}
                                                             </td>
-                                                            <td className={`text-right font-medium px-2 py-2 ${chi.is_amount_low && 'bg-[#FF6838] bg-opacity-[15%]'}`}>
+                                                            <td className={`text-right font-medium px-2 py-4  ${chi.is_amount_low && 'bg-[#FF6838] bg-opacity-[15%]'}`}>
                                                                 {chi.amount}
                                                             </td>
-                                                            <td className={`text-right font-medium px-2 py-2 ${chi.is_total_low && 'bg-[#FF6838] bg-opacity-[15%]'}`}>
+                                                            <td className={`text-right font-medium px-2 py-4  ${chi.is_total_low && 'bg-[#FF6838] bg-opacity-[15%]'}`}>
                                                                 {chi.total}
                                                             </td>
                                                         </tr>
@@ -700,7 +790,7 @@ const Exchange = () => {
                                     <p className="font-medium text-xs text-[#A7B1BC]">0.00</p>
                                 </div>
 
-                                <Components.Button label="Buy BTC" className="bg-gradient-to-r from-gradientStart !font-normal via-gradientMid to-gradientEnd" onClick={() => { }} />
+                                <Components.Button label={isBuy ? "Buy BTC" : "Sell BTC"} className="bg-gradient-to-r from-gradientStart !font-normal via-gradientMid to-gradientEnd" onClick={() => { }} />
 
                                 {line}
 
@@ -796,7 +886,7 @@ const Exchange = () => {
                         <p className="font-medium text-xs text-[#A7B1BC]">0.00</p>
                     </div>
                     {/* button */}
-                    <Components.Button label="Buy BTC" className="bg-gradient-to-r from-gradientStart !font-normal via-gradientMid to-gradientEnd" onClick={() => { }} />
+                    <Components.Button label={isBuy ? "Buy BTC" : "Sell BTC"} className="bg-gradient-to-r from-gradientStart !font-normal via-gradientMid to-gradientEnd" onClick={() => { }} />
 
                     {line}
 
