@@ -388,7 +388,7 @@ const Exchange = () => {
 
 
     return (
-        <main cla>
+        <main>
             {/* navbar  */}
             <header className="flex fixed flex-col z-50 w-full h-[80px]   border-b border-[#32383F] bg-[#1C2127] p-4">
                 <div className="flex justify-between items-center">
