@@ -12,6 +12,7 @@ import Drawer from "../../../components/drawer"
 import { useQuery } from "../../../hooks/useQuery"
 import useWindowSize from "../../../hooks/usewindowSize"
 import { customSelectStyles } from "../../../lib/select-style"
+// import LiveChart from "../../../components/live-chart"
 // import { MenuDropdown } from "../../../components/menuDropdown"
 
 
@@ -448,7 +449,7 @@ const Exchange = () => {
                         <p className="text-white font-medium text-lg lg:ml-0 m l">BTC/USDT</p>
 
                         <img src={icons.Dropdown} alt="dropdown" className="ml-4 cursor-pointer" onClick={() => setDropCoins(!dropCoins)} />
-                        <p className="text-[#00C076] font-medium text-lg ml-4">$20,634</p>
+                        <p className="text-[#00C076] font-medium text-lg ml-4 mr-4">$20,634</p>
 
                         {/* Overlay */}
                         {dropCoins && (
@@ -667,6 +668,7 @@ const Exchange = () => {
                             }
 
                             {chart_tab === "charts" && <ApexChart onClickBuy={() => handleOpenDrawer("buy")} onClickSell={() => handleOpenDrawer("sell")} />}
+                            {/* <LiveChart symbol={'IBM'} /> */}
 
                         </Frame>
                         {/* first frame end */}

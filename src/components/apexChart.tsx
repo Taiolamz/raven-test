@@ -1,8 +1,9 @@
-import React from 'react';
 import ReactApexChart from 'react-apexcharts'; // Import ReactApexChart
 import Components from '.';
 import useWindowSize from '../hooks/usewindowSize';
 import icons from '../assets/icons/icons';
+import LiveChart from './live-chart';
+import React from 'react';
 
 export const ApexChart = ({ onClickBuy, onClickSell }: { onClickBuy: () => void, onClickSell: () => void }) => {
     // const candlestickData = Array.from({ length: 100 }, (_, i) => {
@@ -31,26 +32,34 @@ export const ApexChart = ({ onClickBuy, onClickSell }: { onClickBuy: () => void,
     //     { x: new Date('2021-01-10').getTime(), y: [109.50, 111.00, 108.00, 108.80] }, // Falling
     // ];
 
-    const generateCandlestickData = (numPoints: number) => {
-        const data: { x: number; y: [number, number, number, number] }[] = [];
-        let basePrice = 100;
 
-        for (let i = 0; i < numPoints; i++) {
-            const open = basePrice + Math.random() * 10 - 5;
-            const close = open + Math.random() * 10 - 5;
-            const high = Math.max(open, close) + Math.random() * 5;
-            const low = Math.min(open, close) - Math.random() * 5;
 
-            data.push({
-                x: new Date(2021, 0, i + 1).getTime(),
-                y: [open.toFixed(2) as any, high.toFixed(2) as any, low.toFixed(2) as any, close.toFixed(2) as any],
-            });
 
-            basePrice = close;
-        }
 
-        return data;
-    };
+
+
+
+
+    // const generateCandlestickData = (numPoints: number) => {
+    //     const data: { x: number; y: [number, number, number, number] }[] = [];
+    //     let basePrice = 100;
+
+    //     for (let i = 0; i < numPoints; i++) {
+    //         const open = basePrice + Math.random() * 10 - 5;
+    //         const close = open + Math.random() * 10 - 5;
+    //         const high = Math.max(open, close) + Math.random() * 5;
+    //         const low = Math.min(open, close) - Math.random() * 5;
+
+    //         data.push({
+    //             x: new Date(2021, 0, i + 1).getTime(),
+    //             y: [open.toFixed(2) as any, high.toFixed(2) as any, low.toFixed(2) as any, close.toFixed(2) as any],
+    //         });
+
+    //         basePrice = close;
+    //     }
+
+    //     return data;
+    // };
 
     // const generateBarData = (numPoints: number) => {
     //     return Array.from({ length: numPoints }, () => Math.floor(Math.random() * 100) + 10); // Random data between 10 and 110
@@ -85,32 +94,32 @@ export const ApexChart = ({ onClickBuy, onClickSell }: { onClickBuy: () => void,
     // ];
 
     const [state] = React.useState({
-        series: [{
-            data: generateCandlestickData(100), // Generate 100 data points
-        },
-        ],
-        options: {
-            chart: {
-                type: 'candlestick',
-                height: 290,
-                id: 'candles',
-                toolbar: { autoSelected: 'pan', show: false },
-                zoom: { enabled: false },
-            },
+        // series: [{
+        //     data: generateCandlestickData(100), // Generate 100 data points
+        // },
+        // ],
+        // options: {
+        //     chart: {
+        //         type: 'candlestick',
+        //         height: 290,
+        //         id: 'candles',
+        //         toolbar: { autoSelected: 'pan', show: false },
+        //         zoom: { enabled: false },
+        //     },
 
-            plotOptions: {
-                candlestick: {
-                    columnWidth: "20%",
-                    barWidth: "5%",
-                    colors: { upward: '#25C26E', downward: '#FF6838' },
-                },
-            },
-            xaxis: { type: 'datetime' },
-            grid: {
-                show: false,
-            },
-        },
-        seriesBar: [{ name: 'volume', data:[], }],
+        //     plotOptions: {
+        //         candlestick: {
+        //             columnWidth: "20%",
+        //             barWidth: "5%",
+        //             colors: { upward: '#25C26E', downward: '#FF6838' },
+        //         },
+        //     },
+        //     xaxis: { type: 'datetime' },
+        //     grid: {
+        //         show: false,
+        //     },
+        // },
+        seriesBar: [{ name: 'volume', data: [], }],
         optionsBar: {
             chart: {
                 height: 160,
@@ -165,12 +174,16 @@ export const ApexChart = ({ onClickBuy, onClickSell }: { onClickBuy: () => void,
             </div>
             <div className="chart-box">
                 <div id="chart-candlestick">
-                    <ReactApexChart options={state.options as any} series={state.series} type="candlestick" height={290} />
+                    {/* <ReactApexChart options={state.options as any} series={state.series} type="candlestick" height={290} /> */}
+                    <LiveChart symbol={'IBM'} />
+
                 </div>
-                {isMobile && <div className="flex justify-between mt-5 gap-2 items-center bg-[#262932] p-3">
+                {isMobile && <>
+                 <div className="flex lg:hidden visible justify-between mt-5 gap-2 items-center bg-[#262932] p-3">
                     <Components.Button label="Buy" onClick={onClickBuy} backgroundColor="bg-[#25C26E]" />
                     <Components.Button label="Sell" onClick={onClickSell} backgroundColor="bg-[#FF554A]" />
                 </div>
+                </>
                 }
                 <div className='flex gap-2 items-center px-5 overflow-auto hidden-scrollbar'>
                     <p className='text-[10px] text-[#777E90] font-medium '>Vol(BTC): <span className='text-[#FF6838] ml-2'>2.33%</span></p>
@@ -178,6 +191,7 @@ export const ApexChart = ({ onClickBuy, onClickSell }: { onClickBuy: () => void,
                 </div>
                 <div id="chart-bar">
                     <ReactApexChart options={state.optionsBar as any} series={state.seriesBar} type="bar" height={160} />
+                    {/* <LiveChart symbol={'IBM'} /> */}
                 </div>
             </div>
             <div id="html-dist"></div>
